@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prenota Traghetti - Lombino Travel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- PayPal per pagamenti reali -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR"></script>
+    <!-- Sistema di prenotazione Lombino Travel -->
+    <script src="booking-system.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-8">
+                    <a href="index.html" class="text-2xl font-bold text-blue-600">🌍 Lombino Travel</a>
+                    <nav class="hidden md:flex items-center gap-6 text-gray-700 text-sm">
+                        <a href="treni.html" class="hover:text-blue-600">Treni</a>
+                        <a href="autobus.html" class="hover:text-blue-600">Autobus</a>
+                        <a href="voli.html" class="hover:text-blue-600">Voli</a>
+                        <a href="traghetti.html" class="text-blue-600 font-semibold">Traghetti</a>
+                    </nav>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-700 hover:text-blue-600 text-sm">🇮🇹 Italiano</button>
+                    <a href="prenotazioni.html" class="text-gray-700 hover:text-blue-600 text-sm">Le tue prenotazioni</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-cyan-600 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold mb-4">⛴️ Prenota Traghetti</h1>
+                <p class="text-xl">Naviga verso le isole più belle del Mediterraneo</p>
+            </div>
+
+            <!-- Form di Ricerca Traghetti -->
+            <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-6">
+                <form id="searchForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Porto di partenza</label>
+                            <select id="departure" name="departure" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option value="">Seleziona porto</option>
+                                <option value="Civitavecchia">Civitavecchia</option>
+                                <option value="Genova">Genova</option>
+                                <option value="Livorno">Livorno</option>
+                                <option value="Napoli">Napoli</option>
+                                <option value="Palermo">Palermo</option>
+                                <option value="Bari">Bari</option>
+                                <option value="Ancona">Ancona</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Porto di arrivo</label>
+                            <select id="arrival" name="arrival" required
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option value="">Seleziona destinazione</option>
+                                <option value="Olbia">Olbia (Sardegna)</option>
+                                <option value="Cagliari">Cagliari (Sardegna)</option>
+                                <option value="Porto Torres">Porto Torres (Sardegna)</option>
+                                <option value="Palermo">Palermo (Sicilia)</option>
+                                <option value="Catania">Catania (Sicilia)</option>
+                                <option value="Messina">Messina (Sicilia)</option>
+                                <option value="Capri">Capri</option>
+                                <option value="Ischia">Ischia</option>
+                                <option value="Elba">Isola d'Elba</option>
+                                <option value="Corsica">Corsica</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Data di partenza</label>
+                            <input type="date" id="departureDate" name="departureDate" required
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Passeggeri</label>
+                            <select id="passengers" name="passengers"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option value="1">1 Passeggero</option>
+                                <option value="2">2 Passeggeri</option>
+                                <option value="3">3 Passeggeri</option>
+                                <option value="4">4 Passeggeri</option>
+                                <option value="5">5+ Passeggeri</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Veicolo</label>
+                            <select id="vehicle" name="vehicle"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option value="none">Solo passeggeri</option>
+                                <option value="car">Auto (fino a 5m)</option>
+                                <option value="motorcycle">Moto</option>
+                                <option value="camper">Camper</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-4 pt-6">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" id="returnTrip" name="returnTrip" class="rounded">
+                                <span class="text-gray-700">Andata e ritorno</span>
+                            </label>
+                            <div id="returnDate" class="hidden">
+                                <input type="date" id="returnDateInput" name="returnDate"
+                                       class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold text-lg transition-colors">
+                        🔍 Cerca Traghetti
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risultati -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div id="results" class="hidden">
+                <h2 class="text-2xl font-bold text-gray-900 mb-8">Traghetti Disponibili</h2>
+                <div id="ferryResults" class="space-y-4">
+                    <!-- Risultati dinamici -->
+                </div>
+            </div>
+
+            <!-- Rotte Popolari -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-8">Destinazioni Popolari</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-blue-400 to-cyan-600 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <div class="text-4xl mb-2">🏝️</div>
+                                <h3 class="text-xl font-bold">Sardegna</h3>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h4 class="font-bold">Civitavecchia → Olbia</h4>
+                                    <p class="text-gray-600 text-sm">Tirrenia, Moby Lines</p>
+                                </div>
+                                <span class="bg-cyan-100 text-cyan-800 px-2 py-1 rounded text-sm font-semibold">da €45</span>
+                            </div>
+                            <div class="text-sm text-gray-600 mb-4">
+                                <p>⏱️ Durata: 6h 30min</p>
+                                <p>🚗 Auto inclusa disponibile</p>
+                            </div>
+                            <button onclick="quickBook('Civitavecchia', 'Olbia')" 
+                                    class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md transition-colors">
+                                Prenota Ora
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <div class="text-4xl mb-2">🌋</div>
+                                <h3 class="text-xl font-bold">Sicilia</h3>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h4 class="font-bold">Napoli → Palermo</h4>
+                                    <p class="text-gray-600 text-sm">Tirrenia, Snav</p>
+                                </div>
+                                <span class="bg-cyan-100 text-cyan-800 px-2 py-1 rounded text-sm font-semibold">da €65</span>
+                            </div>
+                            <div class="text-sm text-gray-600 mb-4">
+                                <p>⏱️ Durata: 10h 30min</p>
+                                <p>🛏️ Cabine disponibili</p>
+                            </div>
+                            <button onclick="quickBook('Napoli', 'Palermo')" 
+                                    class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md transition-colors">
+                                Prenota Ora
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <div class="h-48 bg-gradient-to-br from-green-400 to-blue-600 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <div class="text-4xl mb-2">💎</div>
+                                <h3 class="text-xl font-bold">Capri</h3>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h4 class="font-bold">Napoli → Capri</h4>
+                                    <p class="text-gray-600 text-sm">Caremar, Snav</p>
+                                </div>
+                                <span class="bg-cyan-100 text-cyan-800 px-2 py-1 rounded text-sm font-semibold">da €25</span>
+                            </div>
+                            <div class="text-sm text-gray-600 mb-4">
+                                <p>⏱️ Durata: 50min</p>
+                                <p>⚡ Aliscafo veloce</p>
+                            </div>
+                            <button onclick="quickBook('Napoli', 'Capri')" 
+                                    class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md transition-colors">
+                                Prenota Ora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Servizi -->
+            <div class="bg-cyan-50 rounded-lg p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Servizi a Bordo</h3>
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-4xl mb-4">🛏️</div>
+                        <h4 class="font-semibold mb-2">Cabine</h4>
+                        <p class="text-gray-600 text-sm">Cabine private per viaggi notturni</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-4">🍽️</div>
+                        <h4 class="font-semibold mb-2">Ristorante</h4>
+                        <p class="text-gray-600 text-sm">Cucina italiana e specialità locali</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-4">🚗</div>
+                        <h4 class="font-semibold mb-2">Trasporto Auto</h4>
+                        <p class="text-gray-600 text-sm">Porta la tua auto sull'isola</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl mb-4">🎮</div>
+                        <h4 class="font-semibold mb-2">Intrattenimento</h4>
+                        <p class="text-gray-600 text-sm">Area giochi e cinema</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <a href="index.html" class="text-xl font-bold mb-4 block">🌍 Lombino Travel</a>
+                <p class="text-gray-400">© 2024 Lombino Travel. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Imposta data minima
+        document.getElementById('departureDate').min = new Date().toISOString().split('T')[0];
+        document.getElementById('returnDateInput').min = new Date().toISOString().split('T')[0];
+
+        // Gestione andata e ritorno
+        document.getElementById('returnTrip').addEventListener('change', function() {
+            const returnDate = document.getElementById('returnDate');
+            if (this.checked) {
+                returnDate.classList.remove('hidden');
+                document.getElementById('returnDateInput').required = true;
+            } else {
+                returnDate.classList.add('hidden');
+                document.getElementById('returnDateInput').required = false;
+            }
+        });
+
+        // Form di ricerca
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const departure = formData.get('departure');
+            const arrival = formData.get('arrival');
+            const departureDate = formData.get('departureDate');
+            const passengers = formData.get('passengers');
+            const vehicle = formData.get('vehicle');
+            
+            searchFerries(departure, arrival, departureDate, passengers, vehicle);
+        });
+
+        async function searchFerries(departure, arrival, date, passengers, vehicle) {
+            const results = document.getElementById('results');
+            const ferryResults = document.getElementById('ferryResults');
+            
+            ferryResults.innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600 mx-auto"></div><p class="mt-4 text-gray-600">Ricerca traghetti in corso...</p></div>';
+            results.classList.remove('hidden');
+            
+            const ferries = await window.LombinoBooking.searchFerries(departure, arrival, date, passengers, vehicle) || [
+                {
+                    company: 'Tirrenia',
+                    departure: '23:00',
+                    arrival: '06:30+1',
+                    duration: '7h 30min',
+                    price: vehicle === 'none' ? 45 : 85,
+                    ship: 'Moby Dada',
+                    services: ['Cabine', 'Ristorante', 'WiFi']
+                },
+                {
+                    company: 'Moby Lines',
+                    departure: '08:00',
+                    arrival: '14:30',
+                    duration: '6h 30min',
+                    price: vehicle === 'none' ? 50 : 90,
+                    ship: 'Moby Wonder',
+                    services: ['Ristorante', 'Piscina', 'Shopping']
+                },
+                {
+                    company: 'Grimaldi Lines',
+                    departure: '20:30',
+                    arrival: '07:00+1',
+                    duration: '10h 30min',
+                    price: vehicle === 'none' ? 55 : 95,
+                    ship: 'Cruise Roma',
+                    services: ['Cabine', 'Ristorante', 'Cinema', 'WiFi']
+                }
+            ];
+            
+            ferryResults.innerHTML = '';
+            
+            ferries.forEach(ferry => {
+                const servicesHtml = ferry.services.map(service => 
+                    `<span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">${service}</span>`
+                ).join(' ');
+                
+                const ferryCard = `
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex justify-between items-center">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <span class="font-bold text-lg">${ferry.company}</span>
+                                    <span class="text-gray-600">${ferry.ship}</span>
+                                    <span class="text-gray-600">${ferry.duration}</span>
+                                </div>
+                                <div class="flex items-center gap-8 mb-4">
+                                    <div class="text-center">
+                                        <div class="font-bold text-xl">${ferry.departure}</div>
+                                        <div class="text-gray-600 text-sm">${departure}</div>
+                                    </div>
+                                    <div class="flex-1 text-center">
+                                        <div class="border-t-2 border-blue-300 relative">
+                                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-blue-500">⛴️</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="font-bold text-xl">${ferry.arrival}</div>
+                                        <div class="text-gray-600 text-sm">${arrival}</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 flex-wrap">
+                                    ${servicesHtml}
+                                </div>
+                            </div>
+                            <div class="text-right ml-8">
+                                <div class="text-2xl font-bold text-cyan-600">€${ferry.price}</div>
+                                <div class="text-gray-500 text-sm mb-2">${vehicle !== 'none' ? '+ auto' : 'solo passeggero'}</div>
+                                <button onclick="bookFerry('${ferry.company}', '${ferry.departure}', '${ferry.arrival}', ${ferry.price})" 
+                                        class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md font-semibold transition-colors">
+                                    Prenota
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                ferryResults.innerHTML += ferryCard;
+            });
+            
+            results.classList.remove('hidden');
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function quickBook(departure, arrival) {
+            document.getElementById('departure').value = departure;
+            document.getElementById('arrival').value = arrival;
+            
+            // Imposta data di domani
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('departureDate').value = tomorrow.toISOString().split('T')[0];
+            
+            document.getElementById('searchForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function bookFerry(company, departure, arrival, price) {
+            const tripData = {
+                type: 'ferry',
+                company: company,
+                departure: document.getElementById('departure').value,
+                arrival: document.getElementById('arrival').value,
+                date: document.getElementById('departureDate').value,
+                departureTime: departure,
+                arrivalTime: arrival,
+                price: price,
+                passengers: document.getElementById('passengers').value,
+                vehicle: document.getElementById('vehicle').value
+            };
+            
+            await window.LombinoBooking.bookTrip(tripData);
+        }
+    </script>
+</body>
+</html>
