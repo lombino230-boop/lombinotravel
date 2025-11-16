@@ -3,585 +3,1430 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lombino Travel - Prenota treni, autobus, voli e traghetti</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
+    <title>DreamTravel - La Tua Agenzia di Viaggi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .bg-gradient-hero {
-            background: linear-gradient(rgba(26, 43, 73, 0.7), rgba(26, 43, 73, 0.7)), url('https://ext.same-assets.com/1102149620/48606438.jpeg');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Header e Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            background: rgba(0,0,0,0.1);
+            padding: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-top-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav {
+            padding: 15px 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section con Slider */
+        .hero {
+            margin-top: 100px;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider {
+            position: relative;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
             background-size: cover;
             background-position: center;
         }
+
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+
+        .slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s;
+        }
+
+        .slide p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s 0.2s backwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            animation: fadeInUp 1s 0.4s backwards;
+        }
+
+        .btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Search Box */
+        .search-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: -50px auto 50px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .search-tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .search-tab.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+        }
+
+        .search-content {
+            display: none;
+        }
+
+        .search-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* Sezione Offerte */
+        .offers {
+            padding: 80px 0;
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5em;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .offer-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .offer-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9em;
+        }
+
+        .offer-content {
+            padding: 20px;
+        }
+
+        .offer-content h3 {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .offer-content .location {
+            color: #666;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .offer-content .description {
+            color: #777;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .offer-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .price {
+            font-size: 1.5em;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .price small {
+            font-size: 0.6em;
+            color: #666;
+            font-weight: normal;
+        }
+
+        /* Destinazioni Popolari */
+        .destinations {
+            padding: 80px 0;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .destination-card {
+            position: relative;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .destination-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .destination-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .destination-card:hover .destination-info {
+            transform: translateY(0);
+        }
+
+        /* Servizi */
+        .services {
+            padding: 80px 0;
+            background: var(--bg-light);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 3em;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: var(--secondary-color);
+        }
+
+        .testimonial-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .testimonial-info .rating {
+            color: #ffd700;
+        }
+
+        .testimonial-text {
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            padding: 60px 0;
+            background: var(--text-dark);
+            color: white;
+        }
+
+        .newsletter-content {
+            text-align: center;
+        }
+
+        .newsletter-content h2 {
+            margin-bottom: 15px;
+        }
+
+        .newsletter-content p {
+            margin-bottom: 30px;
+            color: #bdc3c7;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+        }
+
+        .newsletter-form button {
+            padding: 15px 30px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-color);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* Modal Booking */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            animation: slideDown 0.3s;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--text-dark);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary-color);
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .search-tabs {
+                flex-wrap: wrap;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-slate-900/80 to-transparent backdrop-blur-sm">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-8">
-                    <h1 class="text-2xl font-bold text-white">🌍 Lombino Travel</h1>
-                    <nav class="hidden md:flex items-center gap-6 text-white/90 text-sm">
-                        <a href="treni.html" class="hover:text-white">Treni</a>
-                        <a href="autobus.html" class="hover:text-white">Autobus</a>
-                        <a href="voli.html" class="hover:text-white">Voli</a>
-                        <a href="traghetti.html" class="hover:text-white">Traghetti</a>
-                    </nav>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button class="text-white/90 hover:text-white text-sm flex items-center gap-1">
-                        🇮🇹 <span class="hidden sm:inline">Italiano</span>
-                    </button>
-                    <a href="prenotazioni.html" class="text-white/90 hover:text-white text-sm">Le tue prenotazioni</a>
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div>
+                        <i class="fas fa-phone"></i> +39 02 1234567
+                        <span style="margin-left: 20px;">
+                            <i class="fas fa-envelope"></i> info@dreamtravel.it
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-clock"></i> Lun-Ven: 9:00-18:00 | Sab: 9:00-13:00
+                    </div>
                 </div>
             </div>
         </div>
+        <nav>
+            <div class="container">
+                <a href="#" class="logo">
+                    <i class="fas fa-globe-americas"></i>
+                    DreamTravel
+                </a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#flights">Voli</a></li>
+                    <li><a href="#hotels">Hotel</a></li>
+                    <li><a href="#packages">Pacchetti</a></li>
+                    <li><a href="#destinations">Destinazioni</a></li>
+                    <li><a href="#contact">Contatti</a></li>
+                </ul>
+                <button class="mobile-menu" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-[600px] flex items-center justify-center bg-gradient-hero">
-        <div class="container mx-auto px-4 py-20">
-            <div class="max-w-3xl mx-auto text-center mb-8">
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
-                    Un mondo di viaggi, tutto in un'unica app
-                </h2>
-                <p class="text-white/90 text-lg">
-                    Prenota biglietti treno, autobus, aereo e traghetto
-                </p>
-            </div>
-
-            <!-- Search Form -->
-            <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-2xl p-6">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                    <div class="md:col-span-1">
-                        <label class="text-xs text-gray-600 mb-1 block">Da: Città, Stazione, Aeroporto</label>
-                        <input type="text" placeholder="Milano" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white">
-                    </div>
-                    <div class="md:col-span-1">
-                        <label class="text-xs text-gray-600 mb-1 block">A: Città, Stazione, Aeroporto</label>
-                        <input type="text" placeholder="Roma" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white">
-                    </div>
-                    <div class="md:col-span-1">
-                        <label class="text-xs text-gray-600 mb-1 block">Data</label>
-                        <div class="relative">
-                            <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 text-gray-900 bg-white">
-                            <i data-lucide="calendar" class="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"></i>
-                        </div>
-                    </div>
-                    <div class="md:col-span-1">
-                        <label class="text-xs text-gray-600 mb-1 block">Passeggeri</label>
-                        <div class="relative">
-                            <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10 text-gray-900 bg-white">
-                                <option>1 - Nessuna carta sconto</option>
-                                <option>2 - Nessuna carta sconto</option>
-                                <option>3 - Nessuna carta sconto</option>
-                                <option>4+ - Nessuna carta sconto</option>
-                            </select>
-                            <i data-lucide="users" class="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"></i>
-                        </div>
-                    </div>
+    <!-- Hero Section con Slider -->
+    <section class="hero" id="home">
+        <div class="slider" id="slider">
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                <div class="slide-content">
+                    <h1>Scopri le Maldive</h1>
+                    <p>Paradiso tropicale con acque cristalline</p>
+                    <a href="#" class="btn" onclick="openModal('Maldive')">Prenota Ora</a>
                 </div>
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center gap-2 text-sm text-gray-700">
-                        <input type="checkbox" class="rounded">
-                        Trova il mio alloggio
-                    </label>
-                    <button class="bg-red-500 hover:bg-red-600 text-white px-8 py-2 rounded-md font-medium transition-colors">
-                        Cerca
-                    </button>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1431274172761-fca41d930114?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')">
+                <div class="slide-content">
+                    <h1>Parigi Ti Aspetta</h1>
+                    <p>La città dell'amore e della cultura</p>
+                    <a href="#" class="btn" onclick="openModal('Parigi')">Prenota Ora</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2088&q=80')">
+                <div class="slide-content">
+                    <h1>Esplora Tokyo</h1>
+                    <p>Dove tradizione e modernità si incontrano</p>
+                    <a href="#" class="btn" onclick="openModal('Tokyo')">Prenota Ora</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Destinazioni da Sogno Section -->
-    <section class="py-16 bg-gradient-to-br from-blue-50 to-cyan-50">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800&h=600&fit=crop&crop=center" alt="Santorini Grecia" class="rounded-lg shadow-xl">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
-                    <div class="absolute bottom-4 left-4 text-white">
-                        <p class="text-sm font-medium">📍 Santorini, Grecia</p>
+    <!-- Search Section -->
+    <section class="search-section container">
+        <div class="search-tabs">
+            <button class="search-tab active" onclick="switchTab('flights')">
+                <i class="fas fa-plane"></i> Voli
+            </button>
+            <button class="search-tab" onclick="switchTab('hotels')">
+                <i class="fas fa-hotel"></i> Hotel
+            </button>
+            <button class="search-tab" onclick="switchTab('trains')">
+                <i class="fas fa-train"></i> Treni
+            </button>
+            <button class="search-tab" onclick="switchTab('ferries')">
+                <i class="fas fa-ship"></i> Traghetti
+            </button>
+            <button class="search-tab" onclick="switchTab('packages')">
+                <i class="fas fa-suitcase"></i> Pacchetti
+            </button>
+        </div>
+
+        <!-- Flights Search -->
+        <div class="search-content active" id="flights-search">
+            <form class="search-form" onsubmit="handleSearch(event, 'flights')">
+                <div class="form-group">
+                    <label>Partenza da</label>
+                    <input type="text" placeholder="Città di partenza" required>
+                </div>
+                <div class="form-group">
+                    <label>Destinazione</label>
+                    <input type="text" placeholder="Dove vuoi andare?" required>
+                </div>
+                <div class="form-group">
+                    <label>Data partenza</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Data ritorno</label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>Passeggeri</label>
+                    <select>
+                        <option>1 Adulto</option>
+                        <option>2 Adulti</option>
+                        <option>3 Adulti</option>
+                        <option>4+ Adulti</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn">Cerca Voli</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Hotels Search -->
+        <div class="search-content" id="hotels-search">
+            <form class="search-form" onsubmit="handleSearch(event, 'hotels')">
+                <div class="form-group">
+                    <label>Destinazione</label>
+                    <input type="text" placeholder="Città, hotel o destinazione" required>
+                </div>
+                <div class="form-group">
+                    <label>Check-in</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Check-out</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Camere</label>
+                    <select>
+                        <option>1 Camera</option>
+                        <option>2 Camere</option>
+                        <option>3+ Camere</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ospiti</label>
+                    <select>
+                        <option>1 Ospite</option>
+                        <option>2 Ospiti</option>
+                        <option>3 Ospiti</option>
+                        <option>4+ Ospiti</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn">Cerca Hotel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Trains Search -->
+        <div class="search-content" id="trains-search">
+            <form class="search-form" onsubmit="handleSearch(event, 'trains')">
+                <div class="form-group">
+                    <label>Stazione partenza</label>
+                    <input type="text" placeholder="Da dove parti?" required>
+                </div>
+                <div class="form-group">
+                    <label>Stazione arrivo</label>
+                    <input type="text" placeholder="Dove vuoi arrivare?" required>
+                </div>
+                <div class="form-group">
+                    <label>Data viaggio</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Orario</label>
+                    <select>
+                        <option>Qualsiasi orario</option>
+                        <option>Mattina (6:00-12:00)</option>
+                        <option>Pomeriggio (12:00-18:00)</option>
+                        <option>Sera (18:00-24:00)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Passeggeri</label>
+                    <select>
+                        <option>1 Passeggero</option>
+                        <option>2 Passeggeri</option>
+                        <option>3+ Passeggeri</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn">Cerca Treni</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Ferries Search -->
+        <div class="search-content" id="ferries-search">
+            <form class="search-form" onsubmit="handleSearch(event, 'ferries')">
+                <div class="form-group">
+                    <label>Porto partenza</label>
+                    <input type="text" placeholder="Porto di partenza" required>
+                </div>
+                <div class="form-group">
+                    <label>Porto arrivo</label>
+                    <input type="text" placeholder="Porto di destinazione" required>
+                </div>
+                <div class="form-group">
+                    <label>Data partenza</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Veicolo</label>
+                    <select>
+                        <option>Solo passeggeri</option>
+                        <option>Con auto</option>
+                        <option>Con moto</option>
+                        <option>Con camper</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Passeggeri</label>
+                    <select>
+                        <option>1 Passeggero</option>
+                        <option>2 Passeggeri</option>
+                        <option>3+ Passeggeri</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn">Cerca Traghetti</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Packages Search -->
+        <div class="search-content" id="packages-search">
+            <form class="search-form" onsubmit="handleSearch(event, 'packages')">
+                <div class="form-group">
+                    <label>Tipo di vacanza</label>
+                    <select>
+                        <option>Mare</option>
+                        <option>Montagna</option>
+                        <option>Città d'arte</option>
+                        <option>Crociera</option>
+                        <option>Tour organizzato</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Destinazione</label>
+                    <input type="text" placeholder="Dove vuoi andare?" required>
+                </div>
+                <div class="form-group">
+                    <label>Budget</label>
+                    <select>
+                        <option>€ 0-500</option>
+                        <option>€ 500-1000</option>
+                        <option>€ 1000-2000</option>
+                        <option>€ 2000+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Durata</label>
+                    <select>
+                        <option>Weekend</option>
+                        <option>1 settimana</option>
+                        <option>2 settimane</option>
+                        <option>3+ settimane</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Persone</label>
+                    <select>
+                        <option>1 Persona</option>
+                        <option>2 Persone</option>
+                        <option>Famiglia</option>
+                        <option>Gruppo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn">Cerca Pacchetti</button>
+                </div>
+            </form>
+        </div>
+        <div class="loading" id="loading"></div>
+    </section>
+
+    <!-- Offerte Speciali -->
+    <section class="offers">
+        <div class="container">
+            <div class="section-title">
+                <h2>Offerte Speciali</h2>
+                <p>Le migliori proposte selezionate per te</p>
+            </div>
+            <div class="offers-grid">
+                <div class="offer-card" onclick="openModal('Santorini')">
+                    <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')">
+                        <span class="offer-badge">-30%</span>
+                    </div>
+                    <div class="offer-content">
+                        <h3>Santorini Magica</h3>
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt"></i> Grecia
+                        </div>
+                        <p class="description">7 notti in hotel 5 stelle con vista caldera, colazione inclusa e transfer privato.</p>
+                        <div class="offer-footer">
+                            <span class="price">€899 <small>/persona</small></span>
+                            <button class="btn">Prenota</button>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="text-3xl font-bold text-slate-900 mb-6">
-                        🏛️ Scopri la Magia della Grecia
-                    </h3>
-                    <p class="text-gray-600 mb-8">
-                        Dalle case bianche di Santorini alle acque cristalline delle Cicladi. Prenota il tuo viaggio verso le isole greche più belle del Mediterraneo.
+
+                <div class="offer-card" onclick="openModal('Dubai')">
+                    <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')">
+                        <span class="offer-badge">Last Minute</span>
+                    </div>
+                    <div class="offer-content">
+                        <h3>Dubai Experience</h3>
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt"></i> Emirati Arabi
+                        </div>
+                        <p class="description">5 notti con volo incluso, hotel 4 stelle e safari nel deserto.</p>
+                        <div class="offer-footer">
+                            <span class="price">€1,299 <small>/persona</small></span>
+                            <button class="btn">Prenota</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="offer-card" onclick="openModal('New York')">
+                    <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80')">
+                        <span class="offer-badge">Top Deal</span>
+                    </div>
+                    <div class="offer-content">
+                        <h3>New York City</h3>
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt"></i> Stati Uniti
+                        </div>
+                        <p class="description">Volo + 6 notti a Manhattan, pass per attrazioni e tour guidato.</p>
+                        <div class="offer-footer">
+                            <span class="price">€1,599 <small>/persona</small></span>
+                            <button class="btn">Prenota</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinazioni Popolari -->
+    <section class="destinations" id="destinations">
+        <div class="container">
+            <div class="section-title">
+                <h2>Destinazioni Popolari</h2>
+                <p>I luoghi più amati dai nostri viaggiatori</p>
+            </div>
+            <div class="destinations-grid">
+                <div class="destination-card" onclick="openModal('Roma')">
+                    <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Roma">
+                    <div class="destination-info">
+                        <h3>Roma</h3>
+                        <p>La Città Eterna ti aspetta</p>
+                        <small>Da €299</small>
+                    </div>
+                </div>
+                <div class="destination-card" onclick="openModal('Barcellona')">
+                    <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Barcellona">
+                    <div class="destination-info">
+                        <h3>Barcellona</h3>
+                        <p>Arte, mare e movida</p>
+                        <small>Da €399</small>
+                    </div>
+                </div>
+                <div class="destination-card" onclick="openModal('Amsterdam')">
+                    <img src="https://images.unsplash.com/photo-1534351590666-13e3e96b5017?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Amsterdam">
+                    <div class="destination-info">
+                        <h3>Amsterdam</h3>
+                        <p>Canali e cultura</p>
+                        <small>Da €449</small>
+                    </div>
+                </div>
+                <div class="destination-card" onclick="openModal('Londra')">
+                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Londra">
+                    <div class="destination-info">
+                        <h3>Londra</h3>
+                        <p>La capitale britannica</p>
+                        <small>Da €529</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servizi -->
+    <section class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>I Nostri Servizi</h2>
+                <p>Tutto quello di cui hai bisogno per il tuo viaggio perfetto</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h3>Voli Economici</h3>
+                    <p>Confrontiamo centinaia di compagnie aeree per trovare il volo perfetto al miglior prezzo.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3>Hotel Selezionati</h3>
+                    <p>Dai boutique hotel agli resort di lusso, abbiamo l'alloggio perfetto per ogni budget.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h3>Pacchetti Vacanza</h3>
+                    <p>Pacchetti all-inclusive con volo, hotel e attività per una vacanza senza pensieri.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Noleggio Auto</h3>
+                    <p>Libertà di esplorare con le migliori tariffe di noleggio auto in tutto il mondo.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Assicurazione Viaggio</h3>
+                    <p>Viaggia sereno con le nostre complete coperture assicurative.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Assistenza 24/7</h3>
+                    <p>Il nostro team è sempre disponibile per aiutarti durante il tuo viaggio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">Cosa Dicono i Nostri Clienti</h2>
+                <p style="color: rgba(255,255,255,0.8);">Le esperienze di chi ha viaggiato con noi</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Marco Rossi</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Servizio eccellente! Ho prenotato il mio viaggio alle Maldive e tutto è stato perfetto. Assistenza impeccabile prima, durante e dopo il viaggio."
                     </p>
-                    <div class="grid grid-cols-1 gap-4 mb-8">
-                        <div class="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                🏖️
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-base mb-1">Isole Paradisiache</h4>
-                                <p class="text-gray-600 text-sm">Santorini, Mykonos, Creta e tutte le Cicladi ti aspettano</p>
-                            </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        <div class="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
-                            <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                ⛴️
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-base mb-1">Traghetti Diretti</h4>
-                                <p class="text-gray-600 text-sm">Collegamenti quotidiani da Bari, Ancona e Brindisi</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
-                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                🌅
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-base mb-1">Tramonti Indimenticabili</h4>
-                                <p class="text-gray-600 text-sm">Vivi i tramonti più belli del mondo a Oia e Fira</p>
+                        <div class="testimonial-info">
+                            <h4>Laura Bianchi</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="flex gap-3">
-                        <a href="traghetti.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
-                            ⛴️ Prenota Traghetto
-                        </a>
-                        <a href="voli.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
-                            ✈️ Vola in Grecia
-                        </a>
-                    </div>
+                    <p class="testimonial-text">
+                        "Ho trovato offerte incredibili per il mio viaggio a New York. Il team mi ha aiutato a personalizzare tutto il pacchetto. Consigliatissimo!"
+                    </p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Parigi Section -->
-    <section class="py-16 bg-gradient-to-br from-pink-50 to-purple-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-slate-900 mb-4">🗼 Scopri Parigi</h2>
-                <p class="text-xl text-gray-600">La Città della Luce ti aspetta con i suoi monumenti iconici</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-full h-48 bg-gradient-to-br from-pink-200 to-purple-300 flex items-center justify-center relative">
-                        <img src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=400&h=250&fit=crop&crop=center" alt="Torre Eiffel Parigi" class="w-full h-full object-cover absolute inset-0" onError="this.style.display='none'">
-                        <div class="text-6xl text-white opacity-80">🗼</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">
-                            🗼 Torre Eiffel
-                        </h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Il simbolo di Parigi e della Francia. Ammira la vista mozzafiato dalla cima della Dama di Ferro, illuminata ogni sera con migliaia di luci scintillanti.
-                        </p>
-                        <div class="flex items-center text-pink-600 font-semibold text-sm">
-                            <span>📍 Champ de Mars</span>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-full h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center relative">
-                        <img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?w=400&h=250&fit=crop&crop=center" alt="Louvre Parigi" class="w-full h-full object-cover absolute inset-0" onError="this.style.display='none'">
-                        <div class="text-6xl text-white opacity-80">🎨</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">
-                            🎨 Musei e Arte
-                        </h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Dal Louvre con la Gioconda al Musée d'Orsay, Parigi ospita le collezioni d'arte più prestigiose al mondo. Un paradiso per gli amanti della cultura.
-                        </p>
-                        <div class="flex items-center text-pink-600 font-semibold text-sm">
-                            <span>🖼️ Louvre e Orsay</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                    <div class="w-full h-48 bg-gradient-to-br from-yellow-200 to-orange-300 flex items-center justify-center relative">
-                        <img src="https://images.unsplash.com/photo-1549144511-f099e773c147?w=400&h=250&fit=crop&crop=center" alt="Champs Elysees Parigi" class="w-full h-full object-cover absolute inset-0" onError="this.style.display='none'">
-                        <div class="text-6xl text-white opacity-80">🛍️</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">
-                            🛍️ Shopping e Cafés
-                        </h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Dagli Champs-Élysées ai quartieri di Montmartre, scopri boutique esclusive, café storici e l'atmosfera romantica che rende Parigi unica al mondo.
-                        </p>
-                        <div class="flex items-center text-pink-600 font-semibold text-sm">
-                            <span>☕ Montmartre e Marais</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-12">
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="voli.html" class="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
-                        ✈️ Vola a Parigi
-                    </a>
-                    <a href="treni.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
-                        🚄 Treno per Parigi
-                    </a>
-                    <a href="autobus.html" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
-                        🚌 Autobus per Parigi
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Servizi Professionali -->
-    <section class="py-16 bg-gradient-to-br from-slate-50 to-gray-100">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-slate-900 mb-4">🏢 Servizi Professionali</h2>
-                <p class="text-xl text-gray-600">Lombino Travel offre soluzioni complete per ogni tipo di viaggio</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mb-12">
-                <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">✈️</span>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">Viaggi Aziendali</h3>
-                    <p class="text-gray-600 text-sm">Gestione completa dei viaggi business con fatturazione dedicata</p>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🏨</span>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">Hotel & Alloggi</h3>
-                    <p class="text-gray-600 text-sm">Prenotazioni hotel, B&B e appartamenti in tutto il mondo</p>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🎫</span>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">Pacchetti Vacanza</h3>
-                    <p class="text-gray-600 text-sm">Viaggi organizzati con volo, hotel e attività incluse</p>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-2xl">🛡️</span>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">Assicurazioni</h3>
-                    <p class="text-gray-600 text-sm">Protezione completa per i tuoi viaggi con copertura medica</p>
-                </div>
-            </div>
-            
-            <!-- Assistenza Online -->
-            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
-                <div class="max-w-4xl mx-auto">
-                    <h3 class="text-3xl font-bold mb-4">💻 Prenotazioni Solo Online</h3>
-                    <p class="text-xl mb-6 opacity-90">Prenota comodamente da casa tua, 24 ore su 24, 7 giorni su 7</p>
-                    <div class="flex justify-center">
-                        <div>
-                            <div class="text-5xl mb-4">📧</div>
-                            <h4 class="font-semibold mb-3 text-2xl">Contattaci via Email</h4>
-                            <p class="text-lg opacity-90 mb-4">Per qualsiasi domanda o assistenza</p>
-                            <a href="mailto:lombino230@gmail.com" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-3 rounded-lg transition-all inline-block text-lg font-medium">
-                                lombino230@gmail.com
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter Professionale -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 md:p-12">
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <h3 class="text-3xl font-bold text-slate-900 mb-4">
-                                📬 Resta Aggiornato sui Migliori Deal
-                            </h3>
-                            <p class="text-gray-600 mb-6">
-                                Ricevi offerte esclusive, sconti last-minute e consigli di viaggio direttamente nella tua casella di posta. Solo le migliori opportunità selezionate dai nostri esperti.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">✈️ Voli Scontati</span>
-                                <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">🏨 Hotel Deals</span>
-                                <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">🎫 Pacchetti</span>
+                        <div class="testimonial-info">
+                            <h4>Giuseppe Verdi</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
                             </div>
                         </div>
-                        <div class="bg-white rounded-xl p-6 shadow-lg">
-                            <form class="space-y-4">
-                                <div>
-                                    <input type="email" placeholder="La tua email" required
-                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white">
-                                </div>
-                                <div>
-                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 bg-white">
-                                        <option>Tipo di viaggi preferiti</option>
-                                        <option>Viaggi Leisure</option>
-                                        <option>Viaggi Business</option>
-                                        <option>Viaggi Famiglia</option>
-                                        <option>Viaggi Avventura</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200">
-                                    🚀 Iscriviti Ora
-                                </button>
-                                <p class="text-xs text-gray-500 text-center">Nessuno spam. Cancellazione facile in qualsiasi momento.</p>
-                            </form>
-                        </div>
                     </div>
+                    <p class="testimonial-text">
+                        "Ottima esperienza di prenotazione online. Il sito è intuitivo e ho trovato subito quello che cercavo. Prezzi competitivi e trasparenti."
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Sezioni Trasporti -->
-    <!-- Sezione Treni -->
-    <section id="treni" class="py-16 bg-blue-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-slate-900 mb-4">🚄 Biglietti Treno</h2>
-                <p class="text-gray-600 text-lg">Prenota i tuoi viaggi in treno in tutta Europa</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Frecciarossa</h3>
-                    <p class="text-gray-600 mb-4">Viaggia ad alta velocità tra le principali città italiane</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Milano - Roma</span><span class="font-bold">da €29</span></div>
-                        <div class="flex justify-between"><span>Roma - Napoli</span><span class="font-bold">da €19</span></div>
-                        <div class="flex justify-between"><span>Torino - Milano</span><span class="font-bold">da €15</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Intercity</h3>
-                    <p class="text-gray-600 mb-4">Comodi collegamenti tra città medie e grandi</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Roma - Firenze</span><span class="font-bold">da €25</span></div>
-                        <div class="flex justify-between"><span>Milano - Venezia</span><span class="font-bold">da €22</span></div>
-                        <div class="flex justify-between"><span>Bologna - Bari</span><span class="font-bold">da €35</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Treni Regionali</h3>
-                    <p class="text-gray-600 mb-4">Viaggi economici per brevi distanze</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Milano - Bergamo</span><span class="font-bold">da €5</span></div>
-                        <div class="flex justify-between"><span>Roma - Viterbo</span><span class="font-bold">da €8</span></div>
-                        <div class="flex justify-between"><span>Firenze - Pisa</span><span class="font-bold">da €7</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sezione Autobus -->
-    <section id="autobus" class="py-16 bg-green-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-slate-900 mb-4">🚌 Biglietti Autobus</h2>
-                <p class="text-gray-600 text-lg">Viaggia comodamente in autobus in tutta Europa</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">FlixBus</h3>
-                    <p class="text-gray-600 mb-4">La rete di autobus più grande d'Europa</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Milano - Parigi</span><span class="font-bold">da €25</span></div>
-                        <div class="flex justify-between"><span>Roma - Barcellona</span><span class="font-bold">da €45</span></div>
-                        <div class="flex justify-between"><span>Napoli - Monaco</span><span class="font-bold">da €35</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Autobus Regionali</h3>
-                    <p class="text-gray-600 mb-4">Collegamenti locali e regionali</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Milano - Bergamo</span><span class="font-bold">da €8</span></div>
-                        <div class="flex justify-between"><span>Roma - Napoli</span><span class="font-bold">da €15</span></div>
-                        <div class="flex justify-between"><span>Firenze - Siena</span><span class="font-bold">da €12</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Autobus Notturni</h3>
-                    <p class="text-gray-600 mb-4">Viaggia di notte e risparmia sull'alloggio</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Milano - Vienna</span><span class="font-bold">da €40</span></div>
-                        <div class="flex justify-between"><span>Roma - Amsterdam</span><span class="font-bold">da €55</span></div>
-                        <div class="flex justify-between"><span>Torino - Londra</span><span class="font-bold">da €65</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sezione Voli -->
-    <section id="voli" class="py-16 bg-sky-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-slate-900 mb-4">✈️ Biglietti Aerei</h2>
-                <p class="text-gray-600 text-lg">Trova i migliori voli per le tue destinazioni</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Voli Nazionali</h3>
-                    <p class="text-gray-600 mb-4">Collega rapidamente le città italiane</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Milano - Catania</span><span class="font-bold">da €89</span></div>
-                        <div class="flex justify-between"><span>Roma - Palermo</span><span class="font-bold">da €65</span></div>
-                        <div class="flex justify-between"><span>Venezia - Bari</span><span class="font-bold">da €75</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Voli Europei</h3>
-                    <p class="text-gray-600 mb-4">Esplora l'Europa con voli convenienti</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Roma - Londra</span><span class="font-bold">da €125</span></div>
-                        <div class="flex justify-between"><span>Milano - Parigi</span><span class="font-bold">da €99</span></div>
-                        <div class="flex justify-between"><span>Venezia - Madrid</span><span class="font-bold">da €145</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Voli Intercontinentali</h3>
-                    <p class="text-gray-600 mb-4">Raggiungi destinazioni lontane</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Roma - New York</span><span class="font-bold">da €450</span></div>
-                        <div class="flex justify-between"><span>Milano - Tokyo</span><span class="font-bold">da €650</span></div>
-                        <div class="flex justify-between"><span>Roma - Dubai</span><span class="font-bold">da €350</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sezione Traghetti -->
-    <section id="traghetti" class="py-16 bg-cyan-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-slate-900 mb-4">⛴️ Biglietti Traghetti</h2>
-                <p class="text-gray-600 text-lg">Naviga verso le isole e destinazioni costiere</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Sardegna</h3>
-                    <p class="text-gray-600 mb-4">Raggiungi la bellissima Sardegna</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Civitavecchia - Olbia</span><span class="font-bold">da €45</span></div>
-                        <div class="flex justify-between"><span>Genova - Porto Torres</span><span class="font-bold">da €55</span></div>
-                        <div class="flex justify-between"><span>Livorno - Golfo Aranci</span><span class="font-bold">da €50</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Sicilia</h3>
-                    <p class="text-gray-600 mb-4">Esplora la magnifica Sicilia</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Villa San Giovanni - Messina</span><span class="font-bold">da €12</span></div>
-                        <div class="flex justify-between"><span>Napoli - Palermo</span><span class="font-bold">da €65</span></div>
-                        <div class="flex justify-between"><span>Civitavecchia - Palermo</span><span class="font-bold">da €70</span></div>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg p-6 shadow-lg">
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Isole Minori</h3>
-                    <p class="text-gray-600 mb-4">Visita le perle del Mediterraneo</p>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span>Napoli - Capri</span><span class="font-bold">da €25</span></div>
-                        <div class="flex justify-between"><span>Piombino - Elba</span><span class="font-bold">da €18</span></div>
-                        <div class="flex justify-between"><span>Civitavecchia - Corsica</span><span class="font-bold">da €85</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Popular Routes Section -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <h3 class="text-2xl font-bold text-slate-900 mb-8">
-                I collegamenti in treno, autobus e aereo più cercati
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <a href="#" class="text-blue-700 hover:underline">Treni Roma - Firenze</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Napoli - Milano</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Torino - Parigi</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Milano - Parigi</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Milano - Roma</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Roma - Napoli</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Roma - Milano</a>
-                <a href="#" class="text-blue-700 hover:underline">Treni Napoli - Roma</a>
-                <a href="#" class="text-blue-700 hover:underline">Autobus Milano - Bergamo</a>
-                <a href="#" class="text-blue-700 hover:underline">Autobus Roma - Napoli</a>
-                <a href="#" class="text-blue-700 hover:underline">Voli Milano - Catania</a>
-                <a href="#" class="text-blue-700 hover:underline">Voli Roma - Londra</a>
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Iscriviti alla Newsletter</h2>
+                <p>Ricevi offerte esclusive e consigli di viaggio direttamente nella tua casella email</p>
+                <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                    <input type="email" placeholder="Inserisci la tua email" required>
+                    <button type="submit" class="btn">Iscriviti</button>
+                </form>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="font-semibold mb-4">Biglietti treno</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white">Frecciarossa</a></li>
-                        <li><a href="#" class="hover:text-white">Treni per Napoli</a></li>
-                        <li><a href="#" class="hover:text-white">Treni per Roma</a></li>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DreamTravel</h3>
+                    <p>La tua agenzia di viaggi di fiducia dal 2010. Rendiamo i tuoi sogni di viaggio realtà con servizi personalizzati e offerte imbattibili.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Link Utili</h3>
+                    <ul>
+                        <li><a href="#">Chi Siamo</a></li>
+                        <li><a href="#">Destinazioni</a></li>
+                        <li><a href="#">Offerte Speciali</a></li>
+                        <li><a href="#">Blog di Viaggio</a></li>
+                        <li><a href="#">Termini e Condizioni</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Biglietti autobus</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white">Pullman Palermo</a></li>
-                        <li><a href="#" class="hover:text-white">Autobus Siena Firenze</a></li>
+                <div class="footer-section">
+                    <h3>Servizi</h3>
+                    <ul>
+                        <li><a href="#">Voli</a></li>
+                        <li><a href="#">Hotel</a></li>
+                        <li><a href="#">Pacchetti Vacanza</a></li>
+                        <li><a href="#">Crociere</a></li>
+                        <li><a href="#">Assicurazioni</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Biglietti aerei</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white">Voli Venezia Madrid</a></li>
-                        <li><a href="#" class="hover:text-white">Voli Londra Parigi</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Viaggi</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white">Da Roma a Milano</a></li>
-                        <li><a href="#" class="hover:text-white">Intercity</a></li>
+                <div class="footer-section">
+                    <h3>Contatti</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Via Roma 123, Milano</li>
+                        <li><i class="fas fa-phone"></i> +39 02 1234567</li>
+                        <li><i class="fas fa-envelope"></i> info@dreamtravel.it</li>
+                        <li><i class="fas fa-clock"></i> Lun-Ven: 9:00-18:00</li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-4">
-                    <h2 class="text-xl font-bold">🌍 Lombino Travel</h2>
-                    <div class="flex gap-4 text-sm text-gray-400">
-                        <a href="#" class="hover:text-white">Imprint</a>
-                        <a href="#" class="hover:text-white">Termini & Condizioni</a>
-                        <a href="#" class="hover:text-white">Privacy</a>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <a href="#" class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 text-xs">f</a>
-                    <a href="#" class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 text-xs">ig</a>
-                    <a href="#" class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 text-xs">tw</a>
-                    <a href="#" class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 text-xs">yt</a>
-                    <a href="#" class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 text-xs">in</a>
-                </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DreamTravel. Tutti i diritti riservati. | P.IVA: 12345678901</p>
             </div>
         </div>
     </footer>
 
+    <!-- Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Prenota il tuo viaggio</h2>
+            <p id="modalDestination"></p>
+            <form onsubmit="handleBooking(event)">
+                <div class="form-group">
+                    <label>Nome e Cognome</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefono</label>
+                    <input type="tel" required>
+                </div>
+                <div class="form-group">
+                    <label>Data preferita</label>
+                    <input type="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Note aggiuntive</label>
+                    <textarea rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn">Conferma Prenotazione</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+        // Slider automatico
+        let currentSlide = 0;
+        const slides = 3;
         
-        // Smooth scrolling per i link di navigazione
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides;
+            document.getElementById('slider').style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        
+        setInterval(nextSlide, 5000);
+
+        // Switch tabs
+        function switchTab(tabName) {
+            // Rimuovi active da tutti i tab
+            document.querySelectorAll('.search-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Rimuovi active da tutti i contenuti
+            document.querySelectorAll('.search-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Aggiungi active al tab cliccato
+            event.target.classList.add('active');
+            
+            // Mostra il contenuto corrispondente
+            document.getElementById(`${tabName}-search`).classList.add('active');
+        }
+
+        // Handle search
+        function handleSearch(event, type) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                alert(`Ricerca ${type} in corso... Verrai reindirizzato ai risultati.`);
+            }, 2000);
+        }
+
+        // Handle newsletter
+        function handleNewsletter(event) {
+            event.preventDefault();
+            alert('Grazie per l\'iscrizione! Riceverai presto le nostre migliori offerte.');
+            event.target.reset();
+        }
+
+        // Modal functions
+        function openModal(destination) {
+            document.getElementById('bookingModal').style.display = 'block';
+            document.getElementById('modalDestination').textContent = `Stai prenotando per: ${destination}`;
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        function handleBooking(event) {
+            event.preventDefault();
+            alert('Prenotazione confermata! Ti contatteremo presto con i dettagli.');
+            closeModal();
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('bookingModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -594,38 +1439,31 @@
                 }
             });
         });
-        
-        // Simple form interaction
-        document.querySelector('form')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Funzionalità di ricerca non implementata in questa demo');
-        });
-        
-        // Newsletter form
-        document.querySelector('input[type="email"]')?.parentElement.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Iscrizione alla newsletter non implementata in questa demo');
-        });
-        
-        // Highlight active navigation link
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+        // Animazioni on scroll
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.offer-card, .destination-card, .service-card');
             
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                if (window.pageYOffset >= sectionTop) {
-                    current = section.getAttribute('id');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                
+                if (elementTop < window.innerHeight && elementBottom > 0) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
                 }
             });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('text-white');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('text-white');
-                }
-            });
+        }
+
+        // Inizializza animazioni
+        window.addEventListener('scroll', handleScrollAnimation);
+        window.addEventListener('load', handleScrollAnimation);
+
+        // Date picker - imposta data minima a oggi
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        const today = new Date().toISOString().split('T')[0];
+        dateInputs.forEach(input => {
+            input.min = today;
         });
     </script>
 </body>

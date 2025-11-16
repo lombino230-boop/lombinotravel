@@ -1,0 +1,28 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="barcelonaSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#barcelonaSky)"/>
+  <rect x="0" y="220" width="400" height="80" fill="#4682B4"/>
+  <rect x="0" y="250" width="400" height="50" fill="#F5DEB3"/>
+  <!-- Sagrada Familia towers -->
+  <rect x="150" y="80" width="20" height="170" fill="#D2691E"/>
+  <rect x="180" y="70" width="25" height="180" fill="#D2691E"/>
+  <rect x="210" y="60" width="20" height="190" fill="#D2691E"/>
+  <rect x="240" y="75" width="22" height="175" fill="#D2691E"/>
+  <!-- Spires -->
+  <polygon points="160,80 155,60 165,60" fill="#D2691E"/>
+  <polygon points="192,70 187,50 197,50" fill="#D2691E"/>
+  <polygon points="220,60 215,40 225,40" fill="#D2691E"/>
+  <polygon points="251,75 246,55 256,55" fill="#D2691E"/>
+  <!-- Buildings -->
+  <rect x="50" y="180" width="40" height="70" fill="#CD853F"/>
+  <rect x="100" y="170" width="35" height="80" fill="#D2691E"/>
+  <rect x="280" y="175" width="45" height="75" fill="#CD853F"/>
+  <rect x="330" y="185" width="30" height="65" fill="#D2691E"/>
+  <circle cx="80" cy="50" r="25" fill="#FFD700"/>
+  <text x="200" y="30" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white" stroke="#000" stroke-width="1">BARCELLONA</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="santoriniSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4682B4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#santoriniSky)"/>
+  <rect x="0" y="150" width="400" height="50" fill="#4682B4"/>
+  <!-- White buildings -->
+  <rect x="50" y="100" width="60" height="50" fill="white"/>
+  <rect x="120" y="90" width="50" height="60" fill="white"/>
+  <rect x="180" y="110" width="70" height="40" fill="white"/>
+  <rect x="260" y="95" width="55" height="55" fill="white"/>
+  <rect x="325" y="105" width="45" height="45" fill="white"/>
+  <!-- Blue domes -->
+  <ellipse cx="80" cy="100" rx="15" ry="8" fill="#4169E1"/>
+  <ellipse cx="145" cy="90" rx="12" ry="6" fill="#4169E1"/>
+  <ellipse cx="290" cy="95" rx="14" ry="7" fill="#4169E1"/>
+  <circle cx="350" cy="80" r="25" fill="#FFD700"/>
+  <text x="200" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white" stroke="#000" stroke-width="1">SANTORINI</text>
+</svg>
